@@ -1,1 +1,19 @@
 
+name: Build APK
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+    - run: flutter pub get
+    - run: flutter build apk -t lib/ui_main.dart --release
+    - uses: actions/upload-artifact@v3
+      with:
+        name: release-apk
+        path: build/app/outputs/apk/release/
